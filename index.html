@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Árbol de Corazones - San Valentín</title>
+
+<style>
+body {
+    margin: 0;
+    background: #ffdde6;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+.title {
+    margin-top: 20px;
+    font-size: 36px;
+    color: #c30055;
+}
+
+.tree {
+    margin-top: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+.trunk {
+    width: 40px;
+    height: 100px;
+    background: #8b3f2f;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+.leaves {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.leaf {
+    width: 50px;
+    height: 50px;
+    background: red;
+    position: absolute;
+    animation: float 3s infinite ease-in-out;
+}
+
+.leaf:nth-child(1) { left: -60px; top: -20px; }
+.leaf:nth-child(2) { left: 0; top: -40px; }
+.leaf:nth-child(3) { left: 60px; top: -20px; }
+.leaf:nth-child(4) { left: -30px; top: 20px; }
+.leaf:nth-child(5) { left: 30px; top: 20px; }
+.leaf:nth-child(6) { left: 0; top: 0; }
+
+.heart {
+    position: relative;
+    transform: rotate(-45deg);
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before { top: -50%; left: 0; }
+.heart::after { left: 50%; top: 0; }
+
+.big-heart {
+    font-size: 80px;
+    margin-top: 40px;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+    color: #ff004c;
+}
+
+.letter {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 300px;
+    box-shadow: 0 0 20px #ff0077;
+    animation: open 0.5s;
+}
+
+#falling-hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+}
+
+.falling {
+    position: absolute;
+    font-size: 20px;
+    animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-50px) rotate(0); }
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: rotate(-45deg) translateY(0); }
+    50% { transform: rotate(-45deg) translateY(-10px); }
+    100% { transform: rotate(-45deg) translateY(0); }
+}
+
+@keyframes open {
+    from { transform: scale(0.5) translate(-50%, -50%); opacity: 0; }
+    to { transform: scale(1) translate(-50%, -50%); opacity: 1; }
+}
+</style>
+
+</head>
+<body>
+
+<div id="falling-hearts"></div>
+
+<h1 class="title">Feliz 14 de Febrero ❤️</h1>
+
+<div class="tree">
+    <div class="heart trunk"></div>
+    <div class="leaves">
+        <div class="heart leaf"></div>
+        <div class="heart leaf"></div>
+        <div class="heart leaf"></div>
+        <div class="heart leaf"></div>
+        <div class="heart leaf"></div>
+        <div class="heart leaf"></div>
+    </div>
+</div>
+
+<div class="big-heart" onclick="openLetter()">❤️</div>
+
+<div class="letter" id="letter">
+    <h2>Mi Mensaje Para Ti ❤️</h2>
+    <p>
+        Desde el primer día que te conocí han pasado:
+        <span id="daysCounter"></span> días 💖<br><br>
+        Gracias por ser alguien tan especial para mí.
+        Te quiero muchísimo y valoro cada momento a tu lado.
+    </p>
+    <button onclick="closeLetter()">Cerrar</button>
+</div>
+
+<script>
+const fechaConoci = new Date("2024-02-14");
+const hoy = new Date();
+const diff = hoy - fechaConoci;
+const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+document.getElementById("daysCounter").textContent = dias;
+
+function openLetter() {
+    document.getElementById("letter").style.display = "block";
+}
+
+function closeLetter() {
+    document.getElementById("letter").style.display = "none";
+}
+
+function crearCorazones() {
+    const cont = document.getElementById("falling-hearts");
+    for (let i = 0; i < 20; i++) {
+        let h = document.createElement("div");
+        h.classList.add("falling");
+        h.textContent = "❤️";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.animationDuration = (3 + Math.random() * 3) + "s";
+        cont.appendChild(h);
+        setTimeout(() => h.remove(), 6000);
+    }
+}
+setInterval(crearCorazones, 700);
+</script>
+
+</body>
+</html>
